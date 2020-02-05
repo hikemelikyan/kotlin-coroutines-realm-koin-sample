@@ -1,4 +1,4 @@
-package com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote
+package com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.root
 
 import androidx.lifecycle.MutableLiveData
 import retrofit2.HttpException

@@ -1,10 +1,10 @@
-package com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote
+package com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.api
 
 import com.armboldmind.kotlincoroutinesrealmkoin.model.ModelClass
 import retrofit2.Response
 import retrofit2.http.GET
 
-interface IMainService {
-    @GET("todos/1")
+interface IAuthorizationService {
+    @GET("todos/2")
     suspend fun testCallAsync(): Response<ModelClass>
 }

@@ -35,6 +35,10 @@ class MainActivity : BaseActivity() {
             startActivity(Intent(this, ViewSavedDataActivity::class.java))
         }
 
+        mBinding.authorization.setOnClickListener {
+            startActivity(Intent(this, AuthorizationActivity::class.java))
+        }
+
         mBinding.callAgain.setOnClickListener {
             mBinding.progressBar.visibility = View.VISIBLE
             mBinding.text.visibility = View.INVISIBLE
@@ -61,6 +65,7 @@ class MainActivity : BaseActivity() {
                 realmInstance.commitTransaction()
                 mBinding.text.text = Gson().toJson(it)
                 showMessageToast("Ok")
+                showMessageToast("Main scope")
             } else if (it is HttpException) {
                 mBinding.text.text = it.message()
                 showMessageToast(it.message())
