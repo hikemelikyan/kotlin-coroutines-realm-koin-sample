@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "30776931410",
+    "firebase_url": "https://phoneauthtest-dd22d.firebaseio.com",
+    "project_id": "phoneauthtest-dd22d",
+    "storage_bucket": "phoneauthtest-dd22d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30776931410:android:4f39e5b007828ea2d5db8b",
+        "android_client_info": {
+          "package_name": "com.armboldmind.kotlincoroutinesrealmkoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "30776931410-7uggmakkhql0h1gjdhihi8pj7eavaepu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.armboldmind.kotlincoroutinesrealmkoin",
+            "certificate_hash": "f72910c3cc13af4ad76b733efb936407987a41fd"
+          }
+        },
+        {
+          "client_id": "30776931410-qurl0s5la2nq4v2h80gvglr4v12srubq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_-VMb5ogYu1r85LZpWG2VJgPeO7zZ8_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30776931410-qurl0s5la2nq4v2h80gvglr4v12srubq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
