@@ -1,6 +1,8 @@
 package com.armboldmind.kotlincoroutinesrealmkoin
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.di.modules.AuthorizationModule
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.di.modules.NetModule
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -17,7 +19,7 @@ class KotlinCoroutinesRealmKoin : Application() {
         startKoin {
             androidContext(this@KotlinCoroutinesRealmKoin)
             printLogger()
-            modules(NetModule)
+            modules(arrayListOf(NetModule, AuthorizationModule))
         }
     }
 }

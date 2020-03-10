@@ -3,12 +3,13 @@ package com.armboldmind.kotlincoroutinesrealmkoin.shared.di.modules
 import android.app.Application
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.api.IAuthorizationService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.api.IMainService
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.api.IPagingService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.AuthorizationService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.MainService
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.PagingService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Cache
 import okhttp3.OkHttpClient
-import org.koin.core.context.GlobalContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -23,6 +24,12 @@ var NetModule = module {
         }
     }
 
+    scope(named("paging_scope")) {
+        scoped {
+            PagingService(get())
+        }
+    }
+
     scope(named("authorization_scope")) {
         scoped {
             AuthorizationService(get())
@@ -32,6 +39,15 @@ var NetModule = module {
     single {
         Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
+            .client(get())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    single(named("paging")) {
+        Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/")
             .client(get())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
@@ -62,7 +78,7 @@ var NetModule = module {
     }
 
     single {
-        Cache(get<Application>().cacheDir, (10*1024*1024).toLong())
+        Cache(get<Application>().cacheDir, (10 * 1024 * 1024).toLong())
     }
 
     single {
@@ -71,5 +87,9 @@ var NetModule = module {
 
     single {
         get<Retrofit>().create(IAuthorizationService::class.java)
+    }
+
+    single {
+        get<Retrofit>(named("paging")).create(IPagingService::class.java)
     }
 }

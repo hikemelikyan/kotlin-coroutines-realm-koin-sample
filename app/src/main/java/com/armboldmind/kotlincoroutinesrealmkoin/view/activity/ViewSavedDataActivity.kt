@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.armboldmind.kotlincoroutinesrealmkoin.R
 import com.armboldmind.kotlincoroutinesrealmkoin.databinding.ActivityViewSavedDataActivityBinding
 import com.armboldmind.kotlincoroutinesrealmkoin.model.ModelClass
-import com.armboldmind.kotlincoroutinesrealmkoin.view.adapter.SavedItemsAdapter
+import com.armboldmind.kotlincoroutinesrealmkoin.view.adapter.savedItemsAdapter.SavedItemsAdapter
 import com.armboldmind.kotlincoroutinesrealmkoin.view.activity.base.BaseActivity
 import io.realm.Realm
 

@@ -1,4 +1,4 @@
-package com.armboldmind.kotlincoroutinesrealmkoin.view.adapter
+package com.armboldmind.kotlincoroutinesrealmkoin.view.adapter.savedItemsAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

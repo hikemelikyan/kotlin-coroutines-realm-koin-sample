@@ -2,4 +2,4 @@ package com.armboldmind.kotlincoroutinesrealmkoin.shared.di.scopes
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS,AnnotationTarget.FIELD)
-annotation class MainScope
+annotation class PagingScope

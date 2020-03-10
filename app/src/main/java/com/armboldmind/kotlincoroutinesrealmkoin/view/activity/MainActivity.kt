@@ -7,14 +7,14 @@ import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.Bundle
 import android.os.CancellationSignal
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.armboldmind.kotlincoroutinesrealmkoin.R
 import com.armboldmind.kotlincoroutinesrealmkoin.databinding.ActivityMainBinding
 import com.armboldmind.kotlincoroutinesrealmkoin.model.ModelClass
-import com.armboldmind.kotlincoroutinesrealmkoin.shared.utils.FingerprintUtil
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.utils.BiometricCallback
 import com.armboldmind.kotlincoroutinesrealmkoin.view.activity.base.BaseActivity
 import com.armboldmind.kotlincoroutinesrealmkoin.viewmodel.MainViewModel
 import com.google.gson.Gson
@@ -32,7 +32,14 @@ class MainActivity : BaseActivity() {
         mViewModel = getViewModel(MainViewModel::class.java)
         init()
         observingToLiveData()
-//        checkFingerprint()
+        checkFingerprint()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+           /* displayPrompt(object : BiometricPrompt.AuthenticationCallback(){
+
+            })*/
+        }else{
+            showAuthenticationDialog()
+        }
         mViewModel.testCall()
     }
 
@@ -46,6 +53,10 @@ class MainActivity : BaseActivity() {
         mBinding.authorization.setOnClickListener {
             startActivity(Intent(this, AuthorizationActivity::class.java))
         }
+
+        /*mBinding.pagingTestBtn.setOnClickListener {
+            startActivity(Intent(this, PagingActivity::class.java))
+        }*/
 
         mBinding.callAgain.setOnClickListener {
             mBinding.progressBar.visibility = View.VISIBLE
@@ -64,48 +75,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun checkFingerprint() {
-        if (FingerprintUtil.isSdkSupported()) {
-            if (FingerprintUtil.isFingerprintSensorAvailable(this)) {
-                Log.d("FINGERPRINT", "available")
-                if (FingerprintUtil.isThereRegisteredFingerprints(this)) {
-                    Log.d("FINGERPRINT", "registered")
-                    if (FingerprintUtil.isFingerprintDialogAllowed()) {
-                        displayPrompt(object : BiometricPrompt.AuthenticationCallback() {
-                            override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
-                                super.onAuthenticationError(errorCode, errString)
-                                showMessageToast("$errString")
-                                mViewModel.testCall()
-                            }
 
-                            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult?) {
-                                super.onAuthenticationSucceeded(result)
-                                showMessageToast("Success")
-                                mViewModel.testCall()
-                            }
-
-                            override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence?) {
-                                super.onAuthenticationHelp(helpCode, helpString)
-                                showMessageToast("$helpString")
-                            }
-
-                            override fun onAuthenticationFailed() {
-                                super.onAuthenticationFailed()
-                                showMessageToast("Failed")
-                            }
-                        })
-                    } else {
-                        Log.d("FINGERPRINT", "dialog not allowed")
-                    }
-                } else {
-                    Log.d("FINGERPRINT", "not registered")
-                }
-            } else {
-                Log.d("FINGERPRINT", "not available")
-            }
-        } else {
-            Log.d("FINGERPRINT", "not supported")
-            mViewModel.testCall()
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.P)
@@ -118,10 +88,8 @@ class MainActivity : BaseActivity() {
                 showMessageToast("Canceled")
             })
             .build()
-            .authenticate(cancellationSignal, mainExecutor, biometricCallback)
+            .authenticate(CancellationSignal(), mainExecutor, biometricCallback)
     }
-
-    val cancellationSignal = CancellationSignal()
 
     private fun observingToLiveData() {
         mViewModel.liveData.observe(this, Observer {
@@ -139,6 +107,20 @@ class MainActivity : BaseActivity() {
                 showMessageToast(it.message())
             }
         })
+    }
+
+    private fun showAuthenticationDialog() {
+
+    }
+
+    private fun changeTheme(isDark: Boolean) {
+        if (isDark) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }/*
+        startActivity(Intent(this,MainActivity::class.java))
+        finish()*/
     }
 
     override fun onDestroy() {

@@ -9,4 +9,7 @@
     <color name="colorPrimaryDark">#358D89</color>
     <color name="colorAccent">#4ACBC7</color>
     <color name="colorPrimaryLight">#F7F3F3</color>
+
+    <color name="baseRed">#DF0026</color>
+    <color name="baseBlue">#002E80</color>
 </resources>

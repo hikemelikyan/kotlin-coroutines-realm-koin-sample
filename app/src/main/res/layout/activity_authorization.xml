@@ -43,6 +43,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+<!--
 
         <Button
             android:id="@+id/phone_verification_by_missed_call"
@@ -56,6 +57,7 @@
             app:layout_constraintBottom_toTopOf="@id/phone_verification_by_sms"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
