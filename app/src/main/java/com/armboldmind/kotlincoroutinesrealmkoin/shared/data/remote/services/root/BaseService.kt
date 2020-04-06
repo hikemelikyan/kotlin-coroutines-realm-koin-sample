@@ -1,28 +1,25 @@
 package com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.root
 
-import androidx.lifecycle.MutableLiveData
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.newtorking.NetworkError
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.newtorking.ResponseCallBack
 import retrofit2.HttpException
 import retrofit2.Response
 
 open class BaseService {
 
-    suspend fun <T : Any> autoCallAsync(
-        method: suspend () -> Response<T>,
-        liveData: MutableLiveData<Any>
-    ) {
+    suspend fun <T : Any> callAsync(method: suspend () -> Response<T>, callback: ResponseCallBack<T>) {
         try {
             val response = method()
 
             if (!response.isSuccessful) {
-                liveData.postValue(HttpException(response))
+                callback.onFailure(NetworkError(HttpException(response)))
                 return
             }
 
-            liveData.postValue(response.body())
-
+            callback.onSuccess(response.body())
 
         } catch (e: Throwable) {
-            liveData.postValue(e.message)
+            callback.onFailure(NetworkError(e))
         }
     }
 

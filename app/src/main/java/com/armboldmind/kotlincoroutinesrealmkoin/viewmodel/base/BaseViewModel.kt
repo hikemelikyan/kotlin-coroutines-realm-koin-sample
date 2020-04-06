@@ -20,39 +20,29 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
     private var mainScope: Scope = app.getKoin().getOrCreateScope("main", named("main_scope"))
 
     @AuthorizationScope
-    private var authorizationScope: Scope =
-        app.getKoin().getOrCreateScope("authorization", named("authorization_scope"))
+    private var authorizationScope: Scope = app.getKoin().getOrCreateScope("authorization", named("authorization_scope"))
 
     @PagingScope
-    private var pageingScope: Scope =
-        app.getKoin().getOrCreateScope("paging", named("paging_scope"))
+    private var pageingScope: Scope = app.getKoin().getOrCreateScope("paging", named("paging_scope"))
+
+    /**
+     * custom scopes, using java reflection
+     * */
 
     protected fun <T : BaseViewModel> getScope(classJav: Class<T>): Scope? {
-        for (annotation in classJav.annotations) {
-            when (annotation) {
-                is MainScope -> {
-                    for (scope in BaseViewModel::class.java.declaredFields) {
-                        if (scope.isAnnotationPresent(MainScope::class.java)) {
-                            return scope.get(this) as Scope
-                        }
-                    }
-                }
-                is AuthorizationScope -> {
-                    for (scope in BaseViewModel::class.java.declaredFields) {
-                        if (scope.isAnnotationPresent(AuthorizationScope::class.java)) {
-                            return scope.get(this) as Scope
-                        }
-                    }
-                }
-                is PagingScope -> {
-                    for (scope in BaseViewModel::class.java.declaredFields) {
-                        if (scope.isAnnotationPresent(PagingScope::class.java)) {
-                            return scope.get(this) as Scope
-                        }
-                    }
-                }
+        val annotations = ArrayList(classJav.annotations.asList())
+        var sameAnnotations: ArrayList<Annotation>
+
+        for (field in BaseViewModel::class.java.declaredFields) {
+            sameAnnotations = ArrayList(field.annotations.asList())
+            sameAnnotations.retainAll(annotations)
+            if (!sameAnnotations.isNullOrEmpty()) {
+                return field.get(this) as Scope
+            } else {
+                sameAnnotations = annotations
             }
         }
+
         return null
     }
 }
