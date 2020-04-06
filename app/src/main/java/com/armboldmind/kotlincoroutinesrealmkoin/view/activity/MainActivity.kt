@@ -20,7 +20,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        mViewModel = getViewModel(MainViewModel::class.java)
+        mViewModel = getViewModel()
         init()
         observingToLiveData()
         mViewModel.testCall()

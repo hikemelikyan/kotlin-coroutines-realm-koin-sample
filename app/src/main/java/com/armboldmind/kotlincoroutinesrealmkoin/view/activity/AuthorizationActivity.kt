@@ -20,7 +20,7 @@ class AuthorizationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_authorization)
-        mViewModel = getViewModel(AuthorizationViewModel::class.java)
+        mViewModel = getViewModel()
         initView()
         observingToLiveData()
         mViewModel.testCall()

@@ -5,15 +5,17 @@ import android.annotation.TargetApi
 import android.content.pm.PackageManager
 import android.os.Build
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import com.armboldmind.kotlincoroutinesrealmkoin.viewmodel.base.BaseViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
 
-    fun <T : BaseViewModel> getViewModel(viewModelClass: Class<T>): T {
-        return ViewModelProviders.of(this).get(viewModelClass)
+    inline fun <reified T : BaseViewModel> getViewModel(): T {
+        val viewModel: T by viewModels()
+        return viewModel
     }
 
     fun showMessageToast(message: String) {
