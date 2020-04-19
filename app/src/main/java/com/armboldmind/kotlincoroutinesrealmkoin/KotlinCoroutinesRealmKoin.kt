@@ -3,6 +3,7 @@ package com.armboldmind.kotlincoroutinesrealmkoin
 import android.app.Application
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.di.modules.AuthorizationModule
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.di.modules.NetModule
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.helpers.scopeHelper.initScopeManager
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.koin.android.ext.koin.androidContext
@@ -31,5 +32,6 @@ class KotlinCoroutinesRealmKoin : Application() {
             printLogger()
             modules(arrayListOf(NetModule, AuthorizationModule))
         }
+        initScopeManager(this)
     }
 }

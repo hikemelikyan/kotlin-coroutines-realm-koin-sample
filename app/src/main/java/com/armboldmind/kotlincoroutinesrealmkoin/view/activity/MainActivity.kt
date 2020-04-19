@@ -7,6 +7,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.armboldmind.kotlincoroutinesrealmkoin.R
 import com.armboldmind.kotlincoroutinesrealmkoin.databinding.ActivityMainBinding
+import com.armboldmind.kotlincoroutinesrealmkoin.model.TestModel
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.helpers.scopeHelper.getScope
 import com.armboldmind.kotlincoroutinesrealmkoin.view.activity.base.BaseActivity
 import com.armboldmind.kotlincoroutinesrealmkoin.viewmodel.MainViewModel
 import com.google.gson.Gson
@@ -16,18 +18,31 @@ class MainActivity : BaseActivity() {
     private lateinit var mBinding: ActivityMainBinding
     private lateinit var mViewModel: MainViewModel
     private lateinit var realmInstance: Realm
+    private lateinit var testModel: TestModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mViewModel = getViewModel()
-        init()
+        initView()
         observingToLiveData()
-        mViewModel.testCall()
+        mViewModel.testCall("lover")
     }
 
-    private fun init() {
+    private fun initView() {
         realmInstance = Realm.getDefaultInstance()
+
+        /*mBinding.btnOk.setOnClickListener {
+            if (mBinding.progressBar.visibility == View.GONE)
+                if (testModel.getBannerContent) {
+                    val intent = Intent(this, WebViewActivity::class.java)
+                    intent.putExtra("webUrl", testModel.urlToDisplay)
+                    startActivity(intent)
+                    overridePendingTransition(0, 0)
+                } else {
+                    showMessageToast("Sorry we need to stay safe.")
+                }
+        }*/
 
         mBinding.getSavedItems.setOnClickListener {
             startActivity(Intent(this, ViewSavedDataActivity::class.java))
@@ -40,16 +55,18 @@ class MainActivity : BaseActivity() {
         mBinding.callAgain.setOnClickListener {
             mBinding.progressBar.visibility = View.VISIBLE
             mBinding.text.visibility = View.INVISIBLE
-            mViewModel.testCall()
+            mViewModel.testCall("lover")
         }
 
-        mBinding.clearDb.setOnClickListener {
-            realmInstance.beginTransaction()
-            realmInstance.deleteAll()
-            realmInstance.commitTransaction()
-            realmInstance.addChangeListener {
-                showMessageToast("Deleted!")
-            }
+        mBinding.clearDb.setOnClickListener { clearDb() }
+    }
+
+    private fun clearDb() {
+        realmInstance.beginTransaction()
+        realmInstance.deleteAll()
+        realmInstance.commitTransaction()
+        realmInstance.addChangeListener {
+            showMessageToast("Deleted!")
         }
     }
 
@@ -57,11 +74,12 @@ class MainActivity : BaseActivity() {
         mViewModel.liveData.observe(this, Observer {
             mBinding.progressBar.visibility = View.GONE
             mBinding.text.visibility = View.VISIBLE
-            realmInstance.beginTransaction()
-            realmInstance.copyToRealm(it)
-            realmInstance.commitTransaction()
+//            realmInstance.beginTransaction()
+//            realmInstance.copyToRealm(it)
+//            realmInstance.commitTransaction()
             mBinding.text.text = Gson().toJson(it)
-            showMessageToast("Main scope")
+            testModel = it
+            showMessageToast(mViewModel.getScope()!!.scopeDefinition?.qualifier.toString())
         })
     }
 

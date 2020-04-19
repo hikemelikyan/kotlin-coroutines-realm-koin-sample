@@ -4,9 +4,11 @@ import android.app.Application
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.api.IAuthorizationService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.api.IMainService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.api.IPagingService
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.api.ITestService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.AuthorizationService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.MainService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.PagingService
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.TestService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -36,6 +38,12 @@ var NetModule = module {
         }
     }
 
+    scope(named("test_scope")) {
+        scoped {
+            TestService(get())
+        }
+    }
+
     single {
         Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
@@ -48,6 +56,15 @@ var NetModule = module {
     single(named("paging")) {
         Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/")
+            .client(get())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    single(named("testApplication")) {
+        Retrofit.Builder()
+            .baseUrl("http://click-safety.com/")
             .client(get())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
@@ -87,5 +104,9 @@ var NetModule = module {
 
     single {
         get<Retrofit>(named("paging")).create(IPagingService::class.java)
+    }
+
+    single {
+        get<Retrofit>(named("testApplication")).create(ITestService::class.java)
     }
 }

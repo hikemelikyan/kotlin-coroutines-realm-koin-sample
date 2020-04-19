@@ -2,25 +2,26 @@ package com.armboldmind.kotlincoroutinesrealmkoin.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.armboldmind.kotlincoroutinesrealmkoin.model.ModelClass
+import com.armboldmind.kotlincoroutinesrealmkoin.model.TestModel
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.newtorking.NetworkError
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.newtorking.ResponseCallBack
-import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.MainService
-import com.armboldmind.kotlincoroutinesrealmkoin.shared.di.scopes.MainScope
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.TestService
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.di.scopes.TestScope
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.helpers.scopeHelper.getScope
 import com.armboldmind.kotlincoroutinesrealmkoin.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.launch
 
-@MainScope
+@TestScope
 class MainViewModel(application: Application) : BaseViewModel(application) {
 
-    private var mService: MainService? = getScope(this@MainViewModel.javaClass)?.get()
+    private val mService: TestService? = getScope()?.get()
 
-    val liveData: MutableLiveData<ModelClass> = MutableLiveData()
+    val liveData: MutableLiveData<TestModel> = MutableLiveData()
 
-    fun testCall() {
+    fun testCall(id: String) {
         coroutineScope.launch {
-            mService?.testCall(object : ResponseCallBack<ModelClass> {
-                override fun onSuccess(data: ModelClass?) {
+            mService?.testCall(id, object : ResponseCallBack<TestModel> {
+                override fun onSuccess(data: TestModel?) {
                     liveData.postValue(data)
                 }
 

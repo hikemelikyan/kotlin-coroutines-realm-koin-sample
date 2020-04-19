@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KotlinCoroutinesRealmKoin</string>
+    <string name="app_name">TestApp</string>
 
     <string name="default_error_message">Sorry something went wrong. Please try again later.</string>
     <string name="network_error_message">No internet connection</string>

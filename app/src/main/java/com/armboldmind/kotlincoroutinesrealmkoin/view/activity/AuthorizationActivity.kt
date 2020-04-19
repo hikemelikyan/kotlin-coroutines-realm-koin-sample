@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import com.armboldmind.kotlincoroutinesrealmkoin.R
 import com.armboldmind.kotlincoroutinesrealmkoin.databinding.ActivityAuthorizationBinding
 import com.armboldmind.kotlincoroutinesrealmkoin.model.ModelClass
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.helpers.scopeHelper.getScope
 import com.armboldmind.kotlincoroutinesrealmkoin.view.activity.base.BaseActivity
 import com.armboldmind.kotlincoroutinesrealmkoin.viewmodel.AuthorizationViewModel
 import com.google.gson.Gson
@@ -39,7 +40,7 @@ class AuthorizationActivity : BaseActivity() {
                 mBinding.text.visibility = View.VISIBLE
                 mBinding.text.text = Gson().toJson(it)
                 showMessageToast("Ok")
-                showMessageToast("Authorization Scope")
+                showMessageToast(mViewModel.getScope()?.scopeDefinition?.qualifier.toString())
             } else if (it is HttpException) {
                 mBinding.text.text = it.message()
                 showMessageToast(it.message())

@@ -2,6 +2,7 @@ package com.armboldmind.kotlincoroutinesrealmkoin.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.armboldmind.kotlincoroutinesrealmkoin.shared.helpers.scopeHelper.ScopeManager
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.data.remote.services.PagingService
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.di.scopes.PagingScope
 import com.armboldmind.kotlincoroutinesrealmkoin.viewmodel.base.BaseViewModel
@@ -10,7 +11,7 @@ import kotlinx.coroutines.launch
 @PagingScope
 class PagingViewModel(application: Application) : BaseViewModel(application) {
 
-    private var mService: PagingService = getScope(this@PagingViewModel.javaClass)!!.get()
+    private var mService: PagingService = ScopeManager.getScope(this@PagingViewModel.javaClass)!!.get()
 
     var liveData: MutableLiveData<Any> = MutableLiveData()
 

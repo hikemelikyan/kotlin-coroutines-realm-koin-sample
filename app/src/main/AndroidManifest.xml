@@ -17,6 +17,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".view.activity.WebViewActivity"></activity>
         <activity android:name=".view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +28,6 @@
         <activity android:name=".view.activity.ViewSavedDataActivity" />
         <activity android:name=".view.activity.PhoneAuthActivity" />
         <activity android:name=".view.activity.AuthorizationActivity" />
-
     </application>
 
 </manifest>
