@@ -1,6 +1,7 @@
 package com.armboldmind.kotlincoroutinesrealmkoin.shared.helpers.scopeHelper
 
 import android.app.Application
+import android.util.Log
 import com.armboldmind.kotlincoroutinesrealmkoin.shared.di.scopes.root.KoinScope
 import com.armboldmind.kotlincoroutinesrealmkoin.viewmodel.base.BaseViewModel
 import org.koin.android.ext.android.getKoin
@@ -12,6 +13,7 @@ object ScopeManager {
     lateinit var applicationContext: Application
 
     fun <T : BaseViewModel> getScope(classJav: Class<T>): Scope? {
+        Log.d("ScopeManager", "${System.currentTimeMillis()}")
         if (!this::applicationContext.isInitialized)
             throwError("Initialize Scope Manager in your application class.")
 
@@ -27,11 +29,11 @@ object ScopeManager {
 
             val scopeAnnotations = allScopes[0].annotationClass.annotations as ArrayList
 
-            val a = scopeAnnotations.find {
+            val baseScope = scopeAnnotations.find {
                 it is KoinScope
             }
-            if (a != null) {
-                return applicationContext.getKoin().getOrCreateScope(allScopes[0].javaClass.name, named((a as KoinScope).scopeName))
+            if (baseScope != null) {
+                return applicationContext.getKoin().getOrCreateScope(allScopes[0].javaClass.name, named((baseScope as KoinScope).scopeName))
             }
         }
         throwError("Unable to find scope")
