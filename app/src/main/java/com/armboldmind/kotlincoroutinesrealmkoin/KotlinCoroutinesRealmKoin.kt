@@ -32,6 +32,6 @@ class KotlinCoroutinesRealmKoin : Application() {
             printLogger()
             modules(arrayListOf(NetModule, AuthorizationModule))
         }
-        initScopeManager(this)
+        initScopeManager()
     }
 }

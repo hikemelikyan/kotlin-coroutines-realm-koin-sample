@@ -7,14 +7,14 @@ import org.koin.core.scope.Scope
 /**
  * function initializes application context in [ScopeManager] class
  * */
-fun initScopeManager(application: Application): Application {
-    ScopeManager.applicationContext = application
+fun Application.initScopeManager(): Application {
+    ScopeManager.applicationContext = this
     return ScopeManager.applicationContext
 }
 
 /**
- * function gets type of viewModel, and passes tu [ScopeManager] class
+ * function gets type of viewModel, and passes to [ScopeManager] class
  * */
 inline fun <reified T : BaseViewModel> T.getScope(): Scope? {
-    return ScopeManager.getScope(T::class.java)
+    return ScopeManager.getScope(this::class.java)
 }
